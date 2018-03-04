@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>chatapp</title>
+        <link rel="stylesheet" type="text/css" href="./index.css"> 
+    </head>
+    <body>
+        <h1 class="title">Chatapp</h1>
+        <div class="chatbox">
+            <p></p>
+        </div>
+        <div class="chatmessage">
+            <textarea class="chatarea" rows="4" cols="50"></textarea>
+        </div>
+        <button class="buttonsend">Send</button>
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+ 
+The integrity and crossorigin attributes are us
+        <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDQDFKT78Lhzi_5FqgVWU8Nt2WQpkI3xeY",
+    authDomain: "chatapp-a99fe.firebaseapp.com",
+    databaseURL: "https://chatapp-a99fe.firebaseio.com",
+    projectId: "chatapp-a99fe",
+    storageBucket: "chatapp-a99fe.appspot.com",
+    messagingSenderId: "842347812884"
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+var isClicked = false
+       $(".buttonsend").click(function(){
+         firebase.database().ref('users/' + new Date()).set(
+         {
+           chat: ($(".chatarea").val())
+         }
+       );
+      });
+     firebase.database().ref('users').on('value' , (snapshot) => {
+       if (isClicked) {
+         $(".chatbox").append("<b>Anonymous:");
+         $(".chatbox").append("<br>");
+         $(".chatbox").append(snapshot.val()[Object.keys(snapshot.val())[Object.keys(snapshot.val()).length - 1]].chat);
+         $(".chatbox").append("<br>");
+         $(".chatbox").append("<br>");
+       }
+       else {
+         isClicked = true
+       }
+     })
+</script>
+    </body>
+</html>
